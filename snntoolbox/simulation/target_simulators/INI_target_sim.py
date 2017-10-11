@@ -134,10 +134,10 @@ class SNN(AbstractSNN):
                 input_b_l = kwargs[str('dvs_gen')].next_eventframe_batch()
 
 #            self.scale_first_layer_parameters(sim_step_int, input_b_l)
-
+            new_input = np.concatenate([input_b_l, np.array(input_b_l > 0, 'float32')]) if self.config.getboolean('conversion', 'use_isi_code') else input_b_l
             # Main step: Propagate input through network and record output
             # spikes.
-            out_spikes = self.snn.predict_on_batch(input_b_l)
+            out_spikes = self.snn.predict_on_batch(new_input)
 
             # Add current spikes to previous spikes.
             if remove_classifier:  # Need to flatten output.

@@ -412,7 +412,7 @@ class AbstractSNN:
 
         # Get batch input shape
         batch_shape = list(parsed_model.layers[0].batch_input_shape)
-        batch_shape[0] = self.batch_size
+        batch_shape[0] = 2 * self.batch_size if self.config.getboolean('conversion', 'use_isi_code') else self.batch_size
 
         self.add_input_layer(batch_shape)
 
